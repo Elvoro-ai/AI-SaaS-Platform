@@ -3,66 +3,276 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI SaaS — App</title>
+  <title>AI SaaS — Dashboard</title>
   <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .dashboard { display: grid; grid-template-columns: 250px 1fr; gap: 24px; min-height: 100vh; }
+    .sidebar { background: var(--panel); padding: 20px; border-radius: var(--radius); height: fit-content; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar li { margin: 8px 0; }
+    .sidebar a { color: var(--muted); text-decoration: none; padding: 8px 12px; display: block; border-radius: 8px; }
+    .sidebar a:hover, .sidebar a.active { background: var(--primary); color: white; }
+    .main-content { flex: 1; }
+    .workspace { background: var(--panel); padding: 24px; border-radius: var(--radius); margin-bottom: 20px; }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .tool-card { background: var(--bg); padding: 20px; border-radius: var(--radius); border: 1px solid #2a3355; }
+    .output-area { background: var(--bg); padding: 16px; border-radius: 8px; min-height: 120px; margin-top: 12px; border: 1px solid #2a3355; white-space: pre-wrap; font-family: monospace; max-height: 400px; overflow-y: auto; }
+    .progress { width: 100%; height: 4px; background: #2a3355; border-radius: 2px; margin: 12px 0; overflow: hidden; }
+    .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat { background: var(--panel); padding: 16px; border-radius: var(--radius); text-align: center; }
+    .stat-value { font-size: 24px; font-weight: bold; color: var(--primary); }
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tab-btn { padding: 8px 16px; border: 1px solid #2a3355; background: var(--bg); color: var(--muted); border-radius: 8px; cursor: pointer; }
+    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .hidden { display: none; }
+    input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #2a3355; background: var(--bg); color: white; }
+    .chat-messages { height: 400px; overflow-y: auto; border: 1px solid #2a3355; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+    .message { margin-bottom: 16px; padding: 12px; border-radius: 8px; }
+    .user-message { background: var(--primary); color: white; margin-left: 20%; }
+    .ai-message { background: var(--panel); border: 1px solid #2a3355; }
+    .input-row { display: flex; gap: 12px; }
+    .template-card { background: var(--panel); padding: 20px; border-radius: var(--radius); border: 1px solid #2a3355; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; }
+    .template-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  </style>
 </head>
 <body>
   <div class="container">
     <nav class="nav">
       <a href="/" class="logo">AI SaaS</a>
       <div>
-        <button id="set-key" class="btn">Configurer clé IA</button>
+        <span id="user-credits">Credits: 100</span>
+        <button id="upgrade-btn" class="btn primary">Upgrade Pro</button>
+        <button id="settings-btn" class="btn">Paramètres</button>
       </div>
     </nav>
 
-    <section class="grid-3">
-      <div class="card">
-        <h3>Chat IA</h3>
-        <textarea id="chat-input" rows="4" placeholder="Demandez n'importe quoi..."></textarea>
-        <button id="chat-send" class="btn primary">Envoyer</button>
-        <pre id="chat-out" style="white-space:pre-wrap"></pre>
-      </div>
-      <div class="card">
-        <h3>Résumé URL</h3>
-        <input id="url" placeholder="https://..." />
-        <button id="summarize" class="btn">Résumer</button>
-        <pre id="sum-out" style="white-space:pre-wrap"></pre>
-      </div>
-      <div class="card">
-        <h3>Templates</h3>
-        <button class="btn">Email Prospection</button>
-        <button class="btn">Article SEO</button>
-        <button class="btn">Post LinkedIn</button>
-      </div>
-    </section>
+    <div class="dashboard">
+      <aside class="sidebar">
+        <ul>
+          <li><a href="#" class="active" data-tab="dashboard">📊 Dashboard</a></li>
+          <li><a href="#" data-tab="chat">💬 Chat IA</a></li>
+          <li><a href="#" data-tab="content">✍️ Génération contenu</a></li>
+          <li><a href="#" data-tab="analysis">📈 Analyse & résumé</a></li>
+          <li><a href="#" data-tab="automation">⚡ Automatisations</a></li>
+          <li><a href="#" data-tab="templates">📝 Templates</a></li>
+          <li><a href="#" data-tab="integrations">🔗 Intégrations</a></li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content">
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-value" id="requests-count">127</div>
+              <div>Requêtes ce mois</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="words-generated">12.5K</div>
+              <div>Mots générés</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="time-saved">23h</div>
+              <div>Temps économisé</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="conversion-rate">8.2%</div>
+              <div>Taux conversion</div>
+            </div>
+          </div>
+          
+          <div class="workspace">
+            <h2>Accès rapide</h2>
+            <div class="tools-grid">
+              <div class="tool-card">
+                <h3>🚀 Générateur d'articles</h3>
+                <p>Créez des articles SEO-friendly en quelques minutes</p>
+                <button class="btn primary" onclick="switchTab('content')">Utiliser</button>
+              </div>
+              <div class="tool-card">
+                <h3>📧 Email marketing</h3>
+                <p>Séquences d'emails qui convertissent</p>
+                <button class="btn primary" onclick="switchTab('templates')">Utiliser</button>
+              </div>
+              <div class="tool-card">
+                <h3>📊 Analyse concurrentielle</h3>
+                <p>Analysez sites web et stratégies concurrents</p>
+                <button class="btn primary" onclick="switchTab('analysis')">Utiliser</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat IA Tab -->
+        <div id="chat-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Assistant IA Personnel</h2>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="input-row">
+              <input id="chat-input" placeholder="Demandez n'importe quoi..." />
+              <button id="chat-send" class="btn primary">Envoyer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Generation Tab -->
+        <div id="content-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Génération de contenu</h2>
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="showContentType('article')">Article SEO</button>
+              <button class="tab-btn" onclick="showContentType('social')">Posts sociaux</button>
+              <button class="tab-btn" onclick="showContentType('email')">Email marketing</button>
+              <button class="tab-btn" onclick="showContentType('landing')">Landing page</button>
+            </div>
+            
+            <div id="article-content" class="content-type">
+              <input id="article-topic" placeholder="Sujet de l'article (ex: Marketing automation pour PME)" />
+              <select id="article-tone">
+                <option>Professionnel</option>
+                <option>Décontracté</option>
+                <option>Expert</option>
+                <option>Persuasif</option>
+              </select>
+              <button id="generate-article" class="btn primary">Générer article complet</button>
+            </div>
+
+            <div id="social-content" class="content-type hidden">
+              <input id="social-topic" placeholder="Sujet du post" />
+              <select id="social-platform">
+                <option>LinkedIn</option>
+                <option>Twitter</option>
+                <option>Facebook</option>
+                <option>Instagram</option>
+              </select>
+              <button id="generate-social" class="btn primary">Générer post viral</button>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar" id="content-progress"></div>
+            </div>
+            <div class="output-area" id="content-output">Votre contenu généré apparaîtra ici...</div>
+          </div>
+        </div>
+
+        <!-- Analysis Tab -->
+        <div id="analysis-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Analyse & Résumé</h2>
+            <div class="tools-grid">
+              <div class="tool-card">
+                <h3>Résumé d'URL</h3>
+                <input id="url-input" placeholder="https://exemple.com" />
+                <button id="analyze-url" class="btn primary">Analyser</button>
+                <div class="output-area" id="url-output">Résumé apparaîtra ici...</div>
+              </div>
+              <div class="tool-card">
+                <h3>Analyse de document</h3>
+                <input type="file" id="doc-upload" accept=".pdf,.txt,.docx" />
+                <button id="analyze-doc" class="btn primary">Analyser document</button>
+                <div class="output-area" id="doc-output">Analyse apparaîtra ici...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automation Tab -->
+        <div id="automation-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Automatisations</h2>
+            <div class="tools-grid">
+              <div class="tool-card">
+                <h3>🔗 Prospection LinkedIn</h3>
+                <p>Messages personnalisés automatiques basés sur le profil</p>
+                <button class="btn primary">Configurer</button>
+                <div class="output-area">0 messages envoyés aujourd'hui</div>
+              </div>
+              <div class="tool-card">
+                <h3>🤖 Réponses automatisées</h3>
+                <p>Support client intelligent avec IA contextuelle</p>
+                <button class="btn primary">Activer</button>
+                <div class="output-area">Status: Inactif</div>
+              </div>
+              <div class="tool-card">
+                <h3>📈 Reporting automatique</h3>
+                <p>Rapports hebdomadaires avec insights générés par IA</p>
+                <button class="btn primary">Paramétrer</button>
+                <div class="output-area">Prochain rapport: Lundi 9h</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Templates Tab -->
+        <div id="templates-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Templates prêts à l'emploi</h2>
+            <div class="tools-grid">
+              <div class="template-card" onclick="useTemplate('prospection')">
+                <h3>📧 Email de prospection B2B</h3>
+                <p>Template personnalisable avec 73% de taux d'ouverture</p>
+              </div>
+              <div class="template-card" onclick="useTemplate('sales-page')">
+                <h3>💰 Page de vente</h3>
+                <p>Structure AIDA avec preuve sociale intégrée</p>
+              </div>
+              <div class="template-card" onclick="useTemplate('press-release')">
+                <h3>📰 Communiqué de presse</h3>
+                <p>Format journalistique optimisé médias</p>
+              </div>
+              <div class="template-card" onclick="useTemplate('onboarding')">
+                <h3>🎆 Séquence onboarding</h3>
+                <p>7 emails pour transformer prospects en clients actifs</p>
+              </div>
+              <div class="template-card" onclick="useTemplate('linkedin-post')">
+                <h3>📱 Post LinkedIn viral</h3>
+                <p>Structure hook-story-CTA pour maximum engagement</p>
+              </div>
+              <div class="template-card" onclick="useTemplate('webinar')">
+                <h3>🎥 Script webinaire</h3>
+                <p>Présentation vente avec objections traitées</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integrations Tab -->
+        <div id="integrations-tab" class="tab-content hidden">
+          <div class="workspace">
+            <h2>Intégrations</h2>
+            <div class="tools-grid">
+              <div class="tool-card">
+                <h3>💬 Slack</h3>
+                <p>Assistant IA dans vos channels d'équipe</p>
+                <button class="btn primary">Connecter</button>
+                <div class="output-area">Status: Déconnecté</div>
+              </div>
+              <div class="tool-card">
+                <h3>📄 Notion</h3>
+                <p>Génération automatique pages et bases de données</p>
+                <button class="btn primary">Connecter</button>
+                <div class="output-area">Status: Déconnecté</div>
+              </div>
+              <div class="tool-card">
+                <h3>⚡ Zapier</h3>
+                <p>1000+ applications connectées avec workflows</p>
+                <button class="btn primary">Configurer</button>
+                <div class="output-area">0 zaps actifs</div>
+              </div>
+              <div class="tool-card">
+                <h3>📉 Google Sheets</h3>
+                <p>Automatisation analyse et reporting données</p>
+                <button class="btn primary">Connecter</button>
+                <div class="output-area">Status: Déconnecté</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
 
-  <script>
-    async function call(prompt){
-      const key = localStorage.getItem('HF_KEY')||'';
-      const resp = await fetch('https://api-inference.huggingface.co/models/google/gemma-2b-it',{
-        method:'POST',headers:{'Authorization':'Bearer '+key},
-        body: JSON.stringify({inputs: prompt})
-      });
-      if(!resp.ok) return 'Configurez votre clé IA (HF_KEY)';
-      const data = await resp.json();
-      return data?.[0]?.generated_text || 'Réponse générée.';
-    }
-    document.getElementById('set-key').onclick=()=>{
-      const v = prompt('Entrez votre clé HuggingFace (HF API Key)');
-      if(v) localStorage.setItem('HF_KEY', v);
-      alert('Clé sauvegardée');
-    }
-    document.getElementById('chat-send').onclick=async()=>{
-      const prompt = document.getElementById('chat-input').value;
-      document.getElementById('chat-out').textContent = '⏳';
-      document.getElementById('chat-out').textContent = await call(prompt);
-    }
-    document.getElementById('summarize').onclick=async()=>{
-      const url = document.getElementById('url').value;
-      document.getElementById('sum-out').textContent = '⏳';
-      document.getElementById('sum-out').textContent = await call('Résume cette page en 5 points clés: '+url);
-    }
-  </script>
+  <script src="/enhanced-script.js"></script>
 </body>
 </html>
