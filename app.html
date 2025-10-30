@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI SaaS — App</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a href="/" class="logo">AI SaaS</a>
+      <div>
+        <button id="set-key" class="btn">Configurer clé IA</button>
+      </div>
+    </nav>
+
+    <section class="grid-3">
+      <div class="card">
+        <h3>Chat IA</h3>
+        <textarea id="chat-input" rows="4" placeholder="Demandez n'importe quoi..."></textarea>
+        <button id="chat-send" class="btn primary">Envoyer</button>
+        <pre id="chat-out" style="white-space:pre-wrap"></pre>
+      </div>
+      <div class="card">
+        <h3>Résumé URL</h3>
+        <input id="url" placeholder="https://..." />
+        <button id="summarize" class="btn">Résumer</button>
+        <pre id="sum-out" style="white-space:pre-wrap"></pre>
+      </div>
+      <div class="card">
+        <h3>Templates</h3>
+        <button class="btn">Email Prospection</button>
+        <button class="btn">Article SEO</button>
+        <button class="btn">Post LinkedIn</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    async function call(prompt){
+      const key = localStorage.getItem('HF_KEY')||'';
+      const resp = await fetch('https://api-inference.huggingface.co/models/google/gemma-2b-it',{
+        method:'POST',headers:{'Authorization':'Bearer '+key},
+        body: JSON.stringify({inputs: prompt})
+      });
+      if(!resp.ok) return 'Configurez votre clé IA (HF_KEY)';
+      const data = await resp.json();
+      return data?.[0]?.generated_text || 'Réponse générée.';
+    }
+    document.getElementById('set-key').onclick=()=>{
+      const v = prompt('Entrez votre clé HuggingFace (HF API Key)');
+      if(v) localStorage.setItem('HF_KEY', v);
+      alert('Clé sauvegardée');
+    }
+    document.getElementById('chat-send').onclick=async()=>{
+      const prompt = document.getElementById('chat-input').value;
+      document.getElementById('chat-out').textContent = '⏳';
+      document.getElementById('chat-out').textContent = await call(prompt);
+    }
+    document.getElementById('summarize').onclick=async()=>{
+      const url = document.getElementById('url').value;
+      document.getElementById('sum-out').textContent = '⏳';
+      document.getElementById('sum-out').textContent = await call('Résume cette page en 5 points clés: '+url);
+    }
+  </script>
+</body>
+</html>

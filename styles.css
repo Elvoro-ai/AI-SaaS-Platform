@@ -1,0 +1,30 @@
+/* Design System */
+:root{
+  --bg:#0b0f19;--panel:#111829;--text:#e7ecff;--muted:#a6b0cf;--primary:#6c8cff;--accent:#8b5cf6;--ok:#22c55e;--warn:#f59e0b;--danger:#ef4444;
+  --radius:12px;--shadow:0 10px 30px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 Inter,system-ui;background:var(--bg);color:var(--text)}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.nav{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;letter-spacing:.5px}
+.nav a{color:var(--muted);margin:0 10px;text-decoration:none}
+.btn{padding:12px 18px;border-radius:10px;border:1px solid #2a3355;background:#1a2240;color:#fff;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,var(--primary),var(--accent));border:none}
+.hero{padding:80px 0;text-align:center}
+.hero h1{font-size:42px;line-height:1.1;margin:0 0 12px}
+.sub{color:var(--muted);margin:0 0 18px}
+.cta{display:flex;gap:12px;justify-content:center}
+.cta input{padding:12px 16px;border-radius:10px;border:1px solid #2a3355;background:#0f1427;color:#fff;min-width:300px}
+.trust{color:var(--muted);font-size:14px;margin-top:12px}
+.demo{width:100%;max-width:880px;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:60px 0}
+.card{background:var(--panel);padding:20px;border-radius:var(--radius);border:1px solid #202a49}
+.proof .logos{display:flex;gap:24px;list-style:none;padding:0;justify-content:center;color:var(--muted)}
+.testimonials{display:grid;gap:12px;margin:24px 0}
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:60px 0}
+.plan{background:var(--panel);padding:20px;border-radius:var(--radius);border:1px solid #202a49;position:relative}
+.plan.popular{transform:scale(1.02);border-color:var(--primary);box-shadow:0 10px 40px rgba(108,140,255,.25)}
+.badge{position:absolute;top:-10px;right:12px;background:var(--primary);color:#0b0f19;padding:6px 10px;border-radius:999px;font-weight:700}
+.faq details{background:var(--panel);padding:14px 16px;border-radius:var(--radius);margin:8px 0;border:1px solid #202a49}
+.footer{color:var(--muted);text-align:center;margin:40px 0 10px}
+@media(max-width:900px){.grid-3,.pricing{grid-template-columns:1fr}.cta{flex-direction:column;align-items:center}.cta input{min-width:auto;width:100%}}
