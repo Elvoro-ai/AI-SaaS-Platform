@@ -6,6 +6,7 @@
   <title>AI SaaS Platform — Assistant IA pour booster votre business</title>
   <meta name="description" content="Assistant IA tout-en-un: génération de contenu, analyse, automatisations. Essayez gratuitement." />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/modal-styles.css" />
 </head>
 <body>
   <header class="container">
@@ -22,7 +23,7 @@
       <h1>Transformez vos idées en résultats en moins de 5 minutes</h1>
       <p class="sub">L'assistant IA qui rédige, analyse et automatise pour vous. Gratuit, sans CB.</p>
       <div class="cta">
-        <input id="email" placeholder="Votre email" />
+        <input id="email" placeholder="Votre email" type="email" autocomplete="email" />
         <button id="get-started" class="btn primary">Commencer gratuitement</button>
       </div>
       <p class="trust">Rejoint par 1,200+ entreprises — SSL • RGPD • 99.9% Uptime</p>
@@ -33,15 +34,15 @@
   <main class="container">
     <section id="features" class="grid-3">
       <div class="card">
-        <h3>Copilot de contenu</h3>
+        <h3>🤖 Copilot de contenu</h3>
         <p>Articles, emails, posts viraux, landing pages — en quelques clics.</p>
       </div>
       <div class="card">
-        <h3>Analyse & synthèse</h3>
+        <h3>📊 Analyse & synthèse</h3>
         <p>Résumez des PDFs, sites, vidéos. Obtenez l'essentiel et des actions.</p>
       </div>
       <div class="card">
-        <h3>Automatisations</h3>
+        <h3>⚡ Automatisations</h3>
         <p>Workflows prêts à l'emploi: prospection, support, reporting.</p>
       </div>
     </section>
@@ -49,7 +50,10 @@
     <section class="proof">
       <h2>Preuves sociales</h2>
       <ul class="logos">
-        <li>Logo1</li><li>Logo2</li><li>Logo3</li><li>Logo4</li>
+        <li>🏢 TechCorp</li>
+        <li>🚀 StartupXYZ</li>
+        <li>💼 ConsultPro</li>
+        <li>🌟 InnovateLab</li>
       </ul>
       <div class="testimonials">
         <blockquote>"Nous économisons 12h/semaine par employé" — Léa, COO</blockquote>
@@ -58,52 +62,217 @@
     </section>
 
     <section id="pricing" class="pricing">
-      <div class="plan">
-        <h3>Gratuit</h3>
-        <p>Idéal pour démarrer</p>
-        <ul>
-          <li>100 requêtes/mois</li>
-          <li>Templates de base</li>
-          <li>Support communautaire</li>
-        </ul>
-        <button class="btn">Choisir</button>
+      <h2>Choisissez le plan qui vous convient</h2>
+      <div class="pricing-container">
+        <div class="plan">
+          <h3>Gratuit</h3>
+          <p>Idéal pour démarrer</p>
+          <div class="price-display">
+            <span class="price">0€</span>
+            <span class="period">/mois</span>
+          </div>
+          <ul>
+            <li>✅ 100 requêtes/mois</li>
+            <li>✅ Templates de base</li>
+            <li>✅ Support communautaire</li>
+            <li>❌ Automatisations</li>
+            <li>❌ Intégrations</li>
+          </ul>
+          <button id="free-plan-btn" class="btn outline">Commencer gratuit</button>
+        </div>
+        
+        <div class="plan popular">
+          <div class="badge">Le plus populaire</div>
+          <h3>Pro</h3>
+          <p>Tout pour scaler</p>
+          <div class="price-display">
+            <span class="price">99€</span>
+            <span class="period">/mois</span>
+          </div>
+          <ul>
+            <li>✅ Requêtes illimitées</li>
+            <li>✅ Tous les templates premium</li>
+            <li>✅ Automatisations avancées</li>
+            <li>✅ Intégrations Slack/Notion/Zapier</li>
+            <li>✅ Support prioritaire</li>
+            <li>✅ Équipe jusqu'à 5 personnes</li>
+          </ul>
+          <button id="pro-plan-btn" class="btn primary">Choisir Pro</button>
+        </div>
+        
+        <div class="plan">
+          <h3>Enterprise</h3>
+          <p>Sécurité & SLA</p>
+          <div class="price-display">
+            <span class="price">299€</span>
+            <span class="period">/mois</span>
+          </div>
+          <ul>
+            <li>✅ Tout du plan Pro</li>
+            <li>✅ SSO/SCIM</li>
+            <li>✅ SOC2, RGPD avancé</li>
+            <li>✅ Équipes illimitées</li>
+            <li>✅ Manager dédié</li>
+            <li>✅ SLA 99.9% uptime</li>
+          </ul>
+          <button id="enterprise-plan-btn" class="btn outline">Nous contacter</button>
+        </div>
       </div>
-      <div class="plan popular">
-        <div class="badge">Le plus populaire</div>
-        <h3>Pro — 99€/mois</h3>
-        <p>Tout pour scaler</p>
-        <ul>
-          <li>Illimité</li>
-          <li>Automatisations</li>
-          <li>Intégrations Slack/Notion/Zapier</li>
-        </ul>
-        <button class="btn primary">Choisir</button>
-      </div>
-      <div class="plan">
-        <h3>Enterprise — 299€/mois</h3>
-        <p>Sécurité & SLA</p>
-        <ul>
-          <li>SSO/SCIM</li>
-          <li>SOC2, RGPD avancé</li>
-          <li>Manager dédié</li>
-        </ul>
-        <button class="btn">Contacter</button>
+      
+      <div class="pricing-cta">
+        <p>🎯 <strong>Pas sûr de votre choix?</strong></p>
+        <button id="demo-cta-btn" class="btn primary">Réserver une démo gratuite</button>
+        <p class="pricing-note">30 minutes • Personnalisée • Sans engagement</p>
       </div>
     </section>
 
     <section id="faq" class="faq">
-      <h2>FAQ</h2>
-      <details><summary>Essai gratuit ?</summary><p>14 jours, sans carte bancaire.</p></details>
-      <details><summary>Politique de remboursement ?</summary><p>30 jours satisfait ou remboursé.</p></details>
-      <details><summary>Protection des données ?</summary><p>Chiffrement, hébergement UE, suppression à la demande.</p></details>
+      <h2>Questions fréquentes</h2>
+      <details>
+        <summary>🆓 L'essai gratuit est-il vraiment gratuit?</summary>
+        <p>Oui, 100% gratuit. 100 requêtes IA mensuelles, accès aux templates de base, aucune carte bancaire requise. Vous pouvez utiliser la plateforme indéfiniment avec le plan gratuit.</p>
+      </details>
+      <details>
+        <summary>💳 Quelle est votre politique de remboursement?</summary>
+        <p>Nous offrons une garantie satisfait ou remboursé de 30 jours. Si vous n'êtes pas entièrement satisfait, contactez-nous pour un remboursement complet, sans questions.</p>
+      </details>
+      <details>
+        <summary>🔒 Comment protégez-vous mes données?</summary>
+        <p>Chiffrement end-to-end, hébergement en UE (conformité RGPD), certification SOC2. Vos données restent confidentielles et peuvent être supprimées à tout moment sur simple demande.</p>
+      </details>
+      <details>
+        <summary>🔄 Puis-je changer de plan à tout moment?</summary>
+        <p>Oui, mise à niveau ou rétrogradation instantanée. Les changements prennent effet immédiatement et sont calculés au prorata.</p>
+      </details>
+      <details>
+        <summary>🎯 Comment fonctionne l'IA de la plateforme?</summary>
+        <p>Nous utilisons les modèles IA les plus avancés (GPT, Claude, Gemini) avec des prompts optimisés pour chaque use case business. L'IA s'améliore continuellement grâce à vos retours.</p>
+      </details>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="final-cta">
+      <div class="cta-container">
+        <h2>🚀 Prêt à transformer votre business avec l'IA?</h2>
+        <p>Rejoignez les 1,200+ entreprises qui économisent des heures chaque semaine</p>
+        <div class="cta-buttons">
+          <button id="final-signup-btn" class="btn primary large">Commencer gratuit maintenant</button>
+          <button id="final-demo-btn" class="btn outline large">Voir une démo</button>
+        </div>
+        <p class="cta-trust">✅ Sans engagement • ✅ Support français • ✅ Résultats garantis</p>
+      </div>
     </section>
   </main>
 
   <footer class="container footer">
-    <p>© 2025 AI SaaS. Tous droits réservés.</p>
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="logo">AI SaaS</div>
+        <p>L'assistant IA qui révolutionne votre productivité</p>
+      </div>
+      <div class="footer-section">
+        <h4>Produit</h4>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#pricing">Tarifs</a>
+        <a href="/app.html">Application</a>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#" onclick="openModal('contact')">Contact</a>
+        <a href="#" onclick="openModal('demo')">Démo</a>
+      </div>
+      <div class="footer-section">
+        <h4>Légal</h4>
+        <a href="/privacy">Confidentialité</a>
+        <a href="/terms">CGU</a>
+        <a href="/security">Sécurité</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 AI SaaS Platform. Tous droits réservés.</p>
+      <div class="footer-social">
+        <span>Suivez-nous:</span>
+        <a href="#">LinkedIn</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
   </footer>
 
+  <!-- Modal Container (Dynamic) -->
+  <div id="modal-container"></div>
+
+  <!-- Scripts -->
+  <script src="/modal-components.js"></script>
   <script src="/enhanced-script.js"></script>
   <script src="/script.js" defer></script>
+  
+  <!-- Additional Button Handler Setup -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Specific button handlers for new elements
+      
+      // Free plan button
+      const freePlanBtn = document.getElementById('free-plan-btn');
+      if (freePlanBtn) {
+        freePlanBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('free_plan_clicked', { source: 'pricing_section' });
+          openModal('signup');
+        });
+      }
+      
+      // Pro plan button
+      const proPlanBtn = document.getElementById('pro-plan-btn');
+      if (proPlanBtn) {
+        proPlanBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('pro_plan_clicked', { source: 'pricing_section' });
+          localStorage.setItem('intendedPlan', 'pro');
+          openModal('pricing');
+        });
+      }
+      
+      // Enterprise plan button
+      const enterprisePlanBtn = document.getElementById('enterprise-plan-btn');
+      if (enterprisePlanBtn) {
+        enterprisePlanBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('enterprise_plan_clicked', { source: 'pricing_section' });
+          openModal('contact');
+        });
+      }
+      
+      // Demo CTA button in pricing
+      const demoCTABtn = document.getElementById('demo-cta-btn');
+      if (demoCTABtn) {
+        demoCTABtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('demo_cta_clicked', { source: 'pricing_section' });
+          openModal('demo');
+        });
+      }
+      
+      // Final signup button
+      const finalSignupBtn = document.getElementById('final-signup-btn');
+      if (finalSignupBtn) {
+        finalSignupBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('final_signup_clicked', { source: 'final_cta' });
+          openModal('signup');
+        });
+      }
+      
+      // Final demo button
+      const finalDemoBtn = document.getElementById('final-demo-btn');
+      if (finalDemoBtn) {
+        finalDemoBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          trackEvent('final_demo_clicked', { source: 'final_cta' });
+          openModal('demo');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
